@@ -55,7 +55,9 @@ def create_subscription(account, user, reason, comment, options)
   override_trial.fixed_price = 10.0
   subscription.price_overrides << override_trial
 
-  subscription.create(user, reason, comment, nil, true, options.dup.merge({ :callTimeoutSec => 10 }))
+  subscription.create(user, reason, comment, nil, false, options)
+  # TODO Specify callTimeoutSec
+  sleep 5
 end
 
 def generate_bt_token(options)
