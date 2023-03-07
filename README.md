@@ -30,7 +30,7 @@ Test
 ----
 
 1. Go to [http://localhost:8082/](http://localhost:8082/).
-2. Enter amount as `20`.  Click on **Card** and enter the following card details: 
+2. Enter amount as `20`. Click on **Card** and enter the following card details: 
   * Card Number: 4111111111111111
   * Expiry Date: 12/29
 ![Screen 1](doc-assets/screen1.png)  
