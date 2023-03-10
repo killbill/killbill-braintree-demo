@@ -11,7 +11,7 @@ Inspired from the [Braintree Drop-In implementation](https://developer.paypal.co
 
 ## Set up
 
-* Obtain Braintree credentials as explained [here](https://github.com/killbill/killbill-braintree#configuration) and set the corresponding values in the [application.properties](https://github.com/killbill/killbill-braintree-demo/blob/0c8d38a300f32a38768b81584b4e7aa1fc5ba956/src/main/resources/application.properties) file.
+* Obtain Braintree credentials as explained [here](https://github.com/killbill/killbill-braintree#setup) and set the corresponding values in the [application.properties](https://github.com/killbill/killbill-braintree-demo/blob/0c8d38a300f32a38768b81584b4e7aa1fc5ba956/src/main/resources/application.properties) file.
 * Create a Paypal sandbox account and link it to your Braintree sandbox account as explained [here](https://developer.paypal.com/braintree/docs/guides/paypal/testing-go-live/php#linked-paypal-testing). Note that this is required only for [Paypal testing](#with-paypal).
 
 
