@@ -1,50 +1,68 @@
-Kill Bill Braintree demo
-========================
+# Kill Bill Braintree Demo
 
-This sample app shows you how to integrate Braintree tokenization feature with [Kill Bill subscriptions APIs](http://docs.killbill.io/0.16/userguide_subscription.html).
 
-Prerequisites
--------------
+Inspired from the [Braintree Drop-In implementation](https://developer.paypal.com/braintree/docs/start/drop-in).
 
-Ruby 2.1+ or JRuby 1.7.20+ is recommended. If you don’t have a Ruby installation yet, use [RVM](https://rvm.io/rvm/install):
+## Prerequisites
 
-```
-gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3
-\curl -sSL https://get.rvm.io | bash -s stable --ruby
-```
+* Kill Bill is [already setup](https://docs.killbill.io/latest/getting_started.html).
+* The default tenant (bob/lazar) has been created.
+* The [Braintree plugin](https://github.com/killbill/killbill-braintree) is installed and configured.
 
-After following the post-installation instructions, you should have access to the ruby and gem executables.
+## Set up
 
-Install the dependencies by running in this folder:
+* Obtain Braintree credentials as explained [here](https://github.com/killbill/killbill-braintree#setup) and set the corresponding values in the [application.properties](https://github.com/killbill/killbill-braintree-demo/blob/0c8d38a300f32a38768b81584b4e7aa1fc5ba956/src/main/resources/application.properties) file.
+* Create a Paypal sandbox account and link it to your Braintree sandbox account as explained [here](https://developer.paypal.com/braintree/docs/guides/paypal/testing-go-live/php#linked-paypal-testing). Note that this is required only for [Paypal testing](#with-paypal).
 
-```
-gem install bundler
-bundle install
-```
 
-This also assumes Kill Bill is [running locally](http://docs.killbill.io/0.16/getting_started.html) at 127.0.0.1:8080 with the [Braintree plugin](https://github.com/killbill/killbill-braintree-blue-plugin) configured.
-
-Run
----
+## Run
 
 To run the app:
 
 ```
-ruby app.rb
+mvn spring-boot:run
 ```
 
-then go to [http://localhost:4567/](http://localhost:4567/) where you should see the Braintree checkout UI.
+## Test 
 
-Enter dummy data (for credit cards, 4111111111111111 as the card number and any expiry date in the future work) or log-in with your test PayPal account, and complete the checkout process.
 
-This will:
+### With Card
 
-* Tokenize the card or PayPal account in Braintree
-* Create a new Kill Bill account
-* Add a default payment method on this account associated with this token (a customer object is also created in Braintree, so the token can be re-used)
-* Create a new subscription for the sports car monthly plan (with a $10 30-days trial)
-* Charge the token for $10
 
-![Shopping cart](./screen1.png)
+1. Go to [http://localhost:8082/](http://localhost:8082/).
+2. Enter amount as `20`. Click on **Card** and enter the following card details: 
+  * Card Number: 4111111111111111
+  * Expiry Date: 12/29
+![Screen 1](doc-assets/screen1.png)  
+3. Click on **Checkout**:
+4. This should display a successful payment page:
+![Screen 2](doc-assets/screen2.png)
+5. Verify that a new account is created in Kill Bill with a successful payment for the amount specified above.
 
-![Checkout](./screen2.png)
+### With Paypal
+
+1. Ensure that a PayPal sandbox account is created and linked to your Braintree sandbox account as mentioned [above](#set-up). 
+1. Go to [http://localhost:8082/](http://localhost:8082/).
+2. Enter amount as `20`. Click on **PayPal**. Click the **PayPal Checkout** button.
+3. The PayPal login screen is displayed. Click on the **Create Account** button at the bottom:
+![Screen 1](doc-assets/paypal-screen1.png) 
+4. Enter the following details (Credit card details shown below are obtained via [PayPal Credit Card Generator](https://developer.paypal.com/api/rest/sandbox/card-testing/#link-creditcardgeneratorfortesting)):
+  * Name: Jane Doe
+  * Card Number: 4032032691996125
+  * Exipry Date: 07/2028
+  * CVV: 506
+  * A valid US phone number
+  * An address with a valid US zip code
+![Screen 2](doc-assets/paypal-screen2.png) 
+5. Scroll to the bottom of the screen. Enter a valid email id and any password of your choice. Click the checkbox to agree to the terms and conditions and then click on the **Agree and Create Account** button:
+![Screen 3](doc-assets/paypal-screen3.png) 
+6. If successful, the email id would be populated in the braintree demo screen. Click on **Checkout**:
+![Screen 4](doc-assets/paypal-screen4.png) 
+4. This should display a successful payment page:
+![Screen 2](doc-assets/screen2.png)
+5. Verify that a new account is created in Kill Bill with a successful payment for the amount specified above.
+
+
+## Credits
+
+Based on the [Braintree Java Dropin Integration](https://github.com/braintree/braintree_spring_example).
